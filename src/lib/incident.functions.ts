@@ -2,7 +2,6 @@ import { createServerFn } from "@tanstack/react-start";
 import { createOpenAI } from "@ai-sdk/openai";
 import { streamText, Output, NoObjectGeneratedError } from "ai";
 import { z } from "zod";
-import { createLovableAiGatewayRunIdFetch } from "./ai-gateway.server";
 
 const IncidentInput = z.object({
   mode: z.string(),
@@ -34,16 +33,10 @@ export type IncidentReport = z.infer<typeof IncidentSchema>;
 export const analyzeIncident = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => IncidentInput.parse(input))
   .handler(async ({ data }): Promise<IncidentReport> => {
-    const key = process.env["LOVABLE_API_KEY"];
-    if (!key) throw new Error("Falta LOVABLE_API_KEY");
+    const key = process.env["OPENAI_API_KEY"];
+    if (!key) throw new Error("Falta OPENAI_API_KEY");
 
-    const runIdFetch = createLovableAiGatewayRunIdFetch();
-    const lovable = createOpenAI({
-      baseURL: "https://ai.gateway.lovable.dev/v1",
-      apiKey: key,
-      headers: { "Lovable-API-Key": key, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
-      fetch: runIdFetch.fetch,
-    });
+    const openai = createOpenAI({ apiKey: key });
 
     const prompt = [
       "Eres el ingeniero jefe de una sala de control nuclear (simulación educativa).",
@@ -68,18 +61,9 @@ export const analyzeIncident = createServerFn({ method: "POST" })
 
     try {
       const result = streamText({
-        model: lovable.responses("openai/gpt-6-astra"),
+        model: openai("gpt-4o-mini"),
         output: Output.object({ schema: IncidentSchema }),
         prompt,
-        providerOptions: {
-          openai: {
-            forceReasoning: true,
-            reasoningEffort: "low",
-            reasoningSummary: "auto",
-            store: false,
-            include: ["reasoning.encrypted_content"],
-          },
-        },
       });
       return await result.output;
     } catch (error) {

@@ -42,10 +42,10 @@ The app runs at `http://localhost:3000` (Vite dev server) by default.
 
 ### Environment variables
 
-The AI incident-analysis feature calls the Lovable AI Gateway and requires an API key:
+The AI incident-analysis feature calls the OpenAI API directly (`gpt-4o-mini`) and requires an API key:
 
 ```
-LOVABLE_API_KEY=your-key-here
+OPENAI_API_KEY=your-key-here
 ```
 
 Without it, the rest of the simulator (controls, gauges, charts, scenarios) still works — only "Análisis de incidente (IA)" will fail.
@@ -71,8 +71,7 @@ src/
 ├── lib/
 │   ├── reactor.ts              # Simulation state machine and physics model (useReactor hook)
 │   ├── incident.functions.ts   # Server function that calls the LLM for incident analysis
-│   ├── report.ts                # PDF report generation
-│   └── ai-gateway.server.ts     # Lovable AI Gateway fetch wrapper
+│   └── report.ts                # PDF report generation
 ├── routes/
 │   ├── __root.tsx      # Root layout
 │   └── index.tsx        # Main control room page
