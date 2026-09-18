@@ -1,0 +1,187 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Reactor control room design system — dark futurist console.
+ * All colors are oklch semantic tokens. Never hardcode colors in components.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-neon: var(--neon);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --color-plasma: var(--plasma);
+  --color-grid: var(--grid);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --font-display: "Orbitron", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --background: oklch(0.16 0.03 250);
+  --foreground: oklch(0.94 0.02 210);
+
+  --card: oklch(0.21 0.035 250);
+  --card-foreground: oklch(0.94 0.02 210);
+  --popover: oklch(0.21 0.035 250);
+  --popover-foreground: oklch(0.94 0.02 210);
+
+  --primary: oklch(0.82 0.16 195);
+  --primary-foreground: oklch(0.16 0.03 250);
+
+  --secondary: oklch(0.28 0.04 250);
+  --secondary-foreground: oklch(0.92 0.02 210);
+
+  --muted: oklch(0.26 0.035 250);
+  --muted-foreground: oklch(0.7 0.03 220);
+
+  --accent: oklch(0.78 0.18 145);
+  --accent-foreground: oklch(0.16 0.03 250);
+
+  --destructive: oklch(0.63 0.24 22);
+  --destructive-foreground: oklch(0.98 0.01 250);
+
+  --border: oklch(0.34 0.05 245);
+  --input: oklch(0.3 0.045 245);
+  --ring: oklch(0.82 0.16 195);
+
+  --neon: oklch(0.82 0.16 195);
+  --warn: oklch(0.83 0.17 80);
+  --danger: oklch(0.65 0.25 24);
+  --plasma: oklch(0.72 0.2 305);
+  --grid: oklch(0.3 0.045 245);
+
+  --chart-1: oklch(0.82 0.16 195);
+  --chart-2: oklch(0.83 0.17 80);
+  --chart-3: oklch(0.78 0.18 145);
+  --chart-4: oklch(0.72 0.2 305);
+  --chart-5: oklch(0.65 0.25 24);
+
+  --glow-neon: 0 0 12px color-mix(in oklab, var(--neon) 55%, transparent);
+  --glow-danger: 0 0 22px color-mix(in oklab, var(--danger) 65%, transparent);
+  --gradient-panel: linear-gradient(
+    160deg,
+    color-mix(in oklab, var(--card) 92%, var(--neon) 8%),
+    color-mix(in oklab, var(--background) 88%, black 12%)
+  );
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    background-image:
+      radial-gradient(
+        circle at 15% 0%,
+        color-mix(in oklab, var(--neon) 12%, transparent),
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 85% 100%,
+        color-mix(in oklab, var(--plasma) 10%, transparent),
+        transparent 45%
+      ),
+      linear-gradient(color-mix(in oklab, var(--grid) 28%, transparent) 1px, transparent 1px),
+      linear-gradient(
+        90deg,
+        color-mix(in oklab, var(--grid) 28%, transparent) 1px,
+        transparent 1px
+      );
+    background-size:
+      100% 100%,
+      100% 100%,
+      44px 44px,
+      44px 44px;
+    font-family: var(--font-mono);
+  }
+}
+
+@utility panel {
+  background-image: var(--gradient-panel);
+  border: 1px solid color-mix(in oklab, var(--border) 85%, var(--neon) 15%);
+  border-radius: var(--radius-xl);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--neon) 12%, transparent),
+    0 18px 40px -28px black;
+}
+
+@utility glow-text {
+  text-shadow: 0 0 14px color-mix(in oklab, currentColor 60%, transparent);
+}
+
+@utility glow-ring {
+  box-shadow: var(--glow-neon);
+}
+
+@utility scanlines {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--neon) 5%, transparent) 0 1px,
+      transparent 1px 4px
+    );
+    border-radius: inherit;
+  }
+}
+
+@utility alarm-pulse {
+  animation: alarm-pulse 1s ease-in-out infinite;
+}
+
+@keyframes alarm-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 color-mix(in oklab, var(--danger) 0%, transparent);
+  }
+  50% {
+    box-shadow: var(--glow-danger);
+  }
+}
